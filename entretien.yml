@@ -1,0 +1,78 @@
+name: Entretien Supabase
+
+on:
+  schedule:
+    - cron: '17 5 * * *'   # contact quotidien (05h17 UTC)
+    - cron: '43 3 * * 0'   # sauvegarde hebdomadaire (dimanche, 03h43 UTC)
+  workflow_dispatch:
+    inputs:
+      tache:
+        description: "Tâche à lancer"
+        type: choice
+        options: [contact, sauvegarde]
+        default: contact
+
+permissions:
+  contents: read
+
+env:
+  SUPABASE_URL: https://vjjlyxmeaekktpkikrjd.supabase.co
+  # Clé « publishable » : publique, déjà présente dans l'application.
+  SUPABASE_KEY: sb_publishable_YFjhXZzAkcxO2feoxqTa4g_LhrbjdfA
+
+jobs:
+  contact:
+    if: github.event_name == 'schedule' && github.event.schedule == '17 5 * * *' || github.event_name == 'workflow_dispatch' && inputs.tache == 'contact'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Contacter Supabase
+        run: |
+          code=$(curl -s -o /tmp/r.txt -w '%{http_code}' -X POST "$SUPABASE_URL/rest/v1/rpc/ping" \
+            -H "apikey: $SUPABASE_KEY" -H "Content-Type: application/json" -d '{}')
+          echo "ping() : HTTP $code"
+          if [ "$code" = "200" ]; then exit 0; fi
+          # Repli : la fonction ping() n'est pas encore créée, on teste l'authentification
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/auth/v1/health" -H "apikey: $SUPABASE_KEY")
+          echo "auth/health : HTTP $code"
+          [ "$code" = "200" ]
+
+  sauvegarde:
+    if: github.event_name == 'schedule' && github.event.schedule == '43 3 * * 0' || github.event_name == 'workflow_dispatch' && inputs.tache == 'sauvegarde'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuser un dépôt public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(gh api repos/${{ github.repository }} --jq .private)" != "true" ]; then
+            echo "Dépôt public : sauvegarde refusée (elle contient des données d'élèves)."; exit 1
+          fi
+      - name: Vérifier le secret
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: '[ -n "$SUPABASE_DB_URL" ] || { echo "Secret SUPABASE_DB_URL manquant (voir docs/guide-entretien.md)."; exit 1; }'
+      - name: Installer le client PostgreSQL 17
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update && sudo apt-get install -y postgresql-client-17
+      - name: Sauvegarder
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          d=$(date -u +%F)
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" --no-owner --no-privileges --schema=public | gzip > "sauvegarde-donnees-$d.sql.gz"
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" --no-owner --no-privileges --data-only --table=auth.users --table=auth.identities | gzip > "sauvegarde-comptes-$d.sql.gz"
+          if [ -n "$BACKUP_PASSPHRASE" ]; then
+            for f in sauvegarde-*.sql.gz; do
+              gpg --batch --yes --pinentry-mode loopback --passphrase "$BACKUP_PASSPHRASE" -c -o "$f.gpg" "$f" && rm "$f"
+            done
+          fi
+          ls -la sauvegarde-*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sauvegarde-supabase
+          path: sauvegarde-*
+          retention-days: 30

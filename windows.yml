@@ -1,0 +1,46 @@
+name: Application Windows
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Adresse du site en ligne
+        shell: bash
+        env:
+          URL_SITE: ${{ vars.URL_SITE }}
+        run: |
+          URL="${URL_SITE:-https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}/}"
+          echo "Le site en ligne utilisé : $URL"
+          echo "URL_SITE_FINALE=$URL" >> "$GITHUB_ENV"
+      - name: Écrire electron/config.json
+        shell: bash
+        run: node -e "require('fs').writeFileSync('electron/config.json',JSON.stringify({urlEnLigne:process.env.URL_SITE_FINALE}))"
+      - run: npm install
+      - run: npx electron-builder --win --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EcoleNumerique-Windows
+          path: |
+            dist/EcoleNumerique-Setup-*.exe
+            dist/EcoleNumerique-Portable-*.exe
+      - name: Joindre à la Release (étiquette v…)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/EcoleNumerique-Setup-*.exe
+            dist/EcoleNumerique-Portable-*.exe
