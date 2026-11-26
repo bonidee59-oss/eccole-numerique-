@@ -295,7 +295,7 @@ const PDF_LARGEURS={H:[278,278,355,556,556,889,667,191,333,333,389,584,278,333,2
       poser(id, out);
     }
     poser(idRes, `<< /Font << ${[...polices.values()].map((r) => `/${r} ${idPolices[r]} 0 R`).join(' ')} >> /XObject << ${idImgs.map((id, i) => `/Im${i + 1} ${id} 0 R`).join(' ')} >> >>`);
-    poser(idInfo, `<< /Title (${echap(enc(titre))}) /Creator (Ecole numerique) /Producer (Ecole numerique) >>`);
+    poser(idInfo, `<< /Title (${echap(enc(titre))}) /Creator (Kalanso) /Producer (Kalanso) >>`);
 
     const nbPages = pages.length, kids = [];
     const px = (v) => v * PT;

@@ -1,4 +1,4 @@
-/* École Numérique — enveloppe Windows (Electron).
+/* Kalanso — enveloppe Windows (Electron).
    Si electron/config.json (écrit par le workflow de construction) contient « urlEnLigne »,
    l'application charge le site en ligne : toute mise à jour publiée sur GitHub Pages est
    reçue automatiquement (le service worker garde la copie hors ligne).
@@ -22,7 +22,7 @@ function creerFenetre() {
     minWidth: 900,
     minHeight: 600,
     backgroundColor: '#F3F4EF',
-    title: 'École Numérique',
+    title: 'Kalanso',
     icon: path.join(__dirname, '..', 'www', 'icons', 'icon-512.png'),
     autoHideMenuBar: true,
     webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true }

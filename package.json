@@ -1,8 +1,8 @@
 {
   "name": "ecole-numerique",
   "version": "55.1.0",
-  "description": "École Numérique — gestion d'école primaire du Burkina Faso (application Windows)",
-  "author": "École Numérique",
+  "description": "Kalanso — gestion d'école primaire du Burkina Faso (application Windows)",
+  "author": "Kalanso",
   "private": true,
   "main": "electron/main.js",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "build": {
     "appId": "bf.ecolenumerique.app",
-    "productName": "École Numérique",
+    "productName": "Kalanso",
     "directories": { "output": "dist" },
     "files": ["electron/**/*", "www/**/*", "package.json"],
     "win": {
@@ -26,10 +26,10 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "artifactName": "EcoleNumerique-Setup-${version}.${ext}"
+      "artifactName": "Kalanso-Setup-${version}.${ext}"
     },
     "portable": {
-      "artifactName": "EcoleNumerique-Portable-${version}.${ext}"
+      "artifactName": "Kalanso-Portable-${version}.${ext}"
     }
   }
 }

@@ -534,7 +534,7 @@ function renderLogin(errorMsg) {
     <div class="login-screen">
       <div class="login-card">
         <div class="woven-stripe"><span></span><span></span><span></span><span></span><span></span></div>
-        <h1 style="margin-bottom:2px;">École Numérique</h1>
+        <img src="icons/icon-192.png" alt="Kalanso" style="width:72px;height:72px;border-radius:18px;display:block;margin:0 0 10px;"><h1 style="margin-bottom:2px;">Kalanso</h1>
         <p class="text-soft" style="margin-top:0;">Connectez-vous avec le compte fourni par votre établissement.</p>
         <form id="login-form" style="margin-top:18px; display:flex; flex-direction:column; gap:10px;">
           <input type="text" inputmode="email" id="login-email" placeholder="E-mail ou numéro de téléphone" required autocomplete="username" autocapitalize="none" style="padding:10px 12px; border-radius:8px; border:1px solid var(--border);">
@@ -593,8 +593,8 @@ function renderShell() {
       <div class="sidebar-backdrop" id="backdrop"></div>
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-          <div class="mark">É</div>
-          <div><div class="name">École Numérique</div><div class="sub">Burkina Faso</div></div>
+          <div class="mark" style="background:none;box-shadow:none;"><img src="icons/icon-192.png" alt="" style="width:40px;height:40px;border-radius:12px;display:block;"></div>
+          <div><div class="name">Kalanso</div><div class="sub">Burkina Faso</div></div>
         </div>
         <div class="woven-stripe"><span></span><span></span><span></span><span></span><span></span></div>
         <nav class="nav-scroll" id="nav"></nav>
@@ -665,7 +665,7 @@ async function onRouteChange() {
   currentRoute = hash.split('?')[0];
   if (!$('#content')) return;
   buildNav();
-  $('#page-title').textContent = ROUTE_TITLES[currentRoute] || 'École Numérique';
+  $('#page-title').textContent = ROUTE_TITLES[currentRoute] || 'Kalanso';
   if (!routeAutorisee(currentRoute)) {
     $('#content').innerHTML = `<div class="alert alert-terre">Votre profil (${esc(labelRole(currentUser.role))}) n'a pas accès à cette page.</div>`;
     return;

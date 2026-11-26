@@ -1,6 +1,6 @@
 /* ============================================================
    db.js — Couche d'accès aux données (IndexedDB)
-   Ecole Numérique Burkina Faso
+   Kalanso Burkina Faso
    ============================================================ */
 
 let DB_NAME = 'ecole-bf-db';

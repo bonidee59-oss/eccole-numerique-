@@ -254,7 +254,7 @@ renderLogin = function (msg) {
   const p = card.querySelector('p'); if (p) p.textContent = 'Entrez le compte fourni par votre établissement.';
   const li = (ic, t) => `<li><span class="t">${uiIcon(ic, 16)}</span><span>${t}</span></li>`;
   sc.insertAdjacentHTML('afterbegin', `<aside class="login-brand">
-    <div class="logo"><span class="mark">${uiIcon('cap', 24)}</span>École Numérique</div>
+    <div class="logo"><span class="mark" style="background:none;"><img src="icons/icon-192.png" alt="" style="width:44px;height:44px;border-radius:13px;display:block;"></span>Kalanso</div>
     <div><h2>Toute votre école, au même endroit</h2><ul>
       ${li('cap', 'Élèves, présences, notes et bulletins')}
       ${li('star', "Circuit du CEP, de l'école jusqu'au ministère")}

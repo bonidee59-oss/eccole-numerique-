@@ -96,7 +96,7 @@ function scPdf(pages, meta) {
   debut(1); txt('<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
   debut(2); txt(`<< /Type /Pages /Count ${n} /Kids [${pages.map((_, i) => `${4 + 3 * i} 0 R`).join(' ')}] >>\nendobj\n`);
   const d = new Date(), z = (v) => String(v).padStart(2, '0');
-  debut(3); txt(`<< /Title ${scHex16((meta && meta.titre) || 'Document scanné')} /Producer ${scHex16('École Numérique')} /CreationDate (D:${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}) >>\nendobj\n`);
+  debut(3); txt(`<< /Title ${scHex16((meta && meta.titre) || 'Document scanné')} /Producer ${scHex16('Kalanso')} /CreationDate (D:${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}) >>\nendobj\n`);
   pages.forEach((p, i) => {
     const page = 4 + 3 * i, cont = page + 1, img = page + 2;
     const paysage = p.w > p.h, W = paysage ? A4[1] : A4[0], H = paysage ? A4[0] : A4[1];

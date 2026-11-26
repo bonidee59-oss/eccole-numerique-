@@ -1,6 +1,6 @@
 {
-  "name": "École Numérique — Gestion d'école primaire du Burkina Faso",
-  "short_name": "École Numérique",
+  "name": "Kalanso — Gestion d'école primaire du Burkina Faso",
+  "short_name": "Kalanso",
   "description": "Gestion complète d'une école primaire publique : élèves, classes, enseignants, présences, évaluations, cotisations, fournitures, cantine et administration — fonctionne hors ligne.",
   "start_url": "./index.html",
   "scope": "./",

@@ -1,4 +1,4 @@
-# École Numérique — dépôt GitHub (site web + APK Android + application Windows)
+# Kalanso — dépôt GitHub (site web + APK Android + application Windows)
 
 Un seul dépôt, trois livrables construits automatiquement par GitHub Actions :
 
@@ -19,7 +19,7 @@ Un seul dépôt, trois livrables construits automatiquement par GitHub Actions :
 1. Sur github.com : **New repository** (par exemple `ecole-numerique`), sans README.
 2. Envoyez tout le contenu de ce dossier (glisser-déposer dans « uploading an existing file », ou `git`) :
    ```
-   git init && git add . && git commit -m "École Numérique v55"
+   git init && git add . && git commit -m "Kalanso v55"
    git branch -M main
    git remote add origin https://github.com/VOTRE-COMPTE/ecole-numerique.git
    git push -u origin main
@@ -40,7 +40,7 @@ Un seul dépôt, trois livrables construits automatiquement par GitHub Actions :
 git tag v55.1.0
 git push origin v55.1.0
 ```
-Fichiers obtenus : `EcoleNumerique-Android.apk`, `EcoleNumerique-Setup-55.1.0.exe` (installateur), `EcoleNumerique-Portable-55.1.0.exe` (sans installation).
+Fichiers obtenus : `Kalanso-Android.apk`, `Kalanso-Setup-55.1.0.exe` (installateur), `Kalanso-Portable-55.1.0.exe` (sans installation).
 
 ## Installer
 - **Android** : copier l'APK sur le téléphone → l'ouvrir → autoriser « installer des applications inconnues » pour le gestionnaire de fichiers.
